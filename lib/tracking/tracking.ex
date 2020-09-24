@@ -43,22 +43,11 @@ defmodule ExAudit.Tracking do
             patch: patch,
             action: action
           }
-          |> maybe_add_encrypted_patch()
 
           [params]
       end
     else
       []
-    end
-  end
-
-  defp maybe_add_encrypted_patch(params) do
-    version_schema = Application.get_env(:ex_audit, :version_schema)
-
-    if Enum.any?(version_schema.__schema__(:fields), & &1 == :encrypted_patch) do
-      Map.put_new(params, :encrypted_patch, params[:patch])
-    else
-      params
     end
   end
 
